@@ -3,5 +3,5 @@ Encoding=UTF-8
 Version=1.0
 Type=Application
 Terminal=false
-Exec=/opt/mpd/bin/MultiDesktopBackground
-Name=Multi Desktop Background
+Exec=/opt/mpd/bin/MultiMonitorBackground
+Name=Multi Monitor Background
