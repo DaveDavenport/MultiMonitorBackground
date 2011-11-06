@@ -127,6 +127,8 @@ static int main (string[] argv)
 			try
 			{
 				Gdk.Pixbuf? pb = new Gdk.Pixbuf.from_file(file); 
+				int new_width = 0;
+				int new_height = 0;
 				// Get size
 				int pb_width = pb.get_width();
 				int pb_height = pb.get_height();
@@ -136,61 +138,60 @@ static int main (string[] argv)
 
 				if(x_scale >= 1 && y_scale >= 1 && clip) 
 				{
+					GLib.debug("Clip image to fit monitor");
+					// Clip the image so the whole monitor is covered.
 					if(x_scale > y_scale)
 					{
-						int new_width = (int)(pb_width/y_scale);
-						int new_height = (int)(pb_height/y_scale);
+						new_width = (int)(pb_width/y_scale);
+						new_height = (int)(pb_height/y_scale);
 						pb = pb.scale_simple(new_width, new_height, Gdk.InterpType.HYPER); 
-
-						int x_offset = (new_width - rectangle.width)/2;
-						int y_offset = (new_height- rectangle.height)/2;
-						pb.copy_area(
-								x_offset,y_offset,
-								new_width-x_offset*2,new_height-y_offset*2,
-								background_pb,
-								rectangle.x, rectangle.y
-								);
 					} else {
-						int new_width = (int)(pb_width/x_scale);
-						int new_height = (int)(pb_height/x_scale);
+						new_width = (int)(pb_width/x_scale);
+						new_height = (int)(pb_height/x_scale);
 						pb = pb.scale_simple(new_width, new_height, Gdk.InterpType.HYPER); 
-
-						int x_offset = (new_width - rectangle.width)/2;
-						int y_offset = (new_height- rectangle.height)/2;
-						pb.copy_area(
-								x_offset,y_offset,
-								new_width-x_offset*2,new_height-y_offset*2,
-								background_pb,
-								rectangle.x,rectangle.y
-								);
 					}
-				}
-				else if(x_scale > y_scale)
-				{
-					int new_width = (int)(pb_width/x_scale);
-					int new_height = (int)(pb_height/x_scale);
-					pb = pb.scale_simple(new_width, new_height, Gdk.InterpType.HYPER); 
 
-					pb.copy_area(0,0,
-							new_width, new_height,
+					int x_offset = (new_width - rectangle.width)/2;
+					int y_offset = (new_height- rectangle.height)/2;
+					pb.copy_area(
+							x_offset,y_offset,
+							new_width-x_offset*2,new_height-y_offset*2,
 							background_pb,
-							rectangle.x + (rectangle.width-new_width)/2,
-							rectangle.y + (rectangle.height-new_height)/2
+							rectangle.x,rectangle.y
+							);
+				}
+				else if (y_scale < 1 && x_scale < 1)
+				{
+					GLib.debug("Does not fit.");
+					// Image is to small, center it.
+					pb.copy_area(0,0,
+							pb_width, pb_height,
+							background_pb,
+							rectangle.x + (rectangle.width-pb_width)/2,
+							rectangle.y + (rectangle.height-pb_height)/2
 							);
 				}
 				else 
 				{
-					int new_width = (int)(pb_width/y_scale);
-					int new_height = (int)(pb_height/y_scale);
+					GLib.debug("Scale image to fit monitor");
+					// Fit the image as good as possible.
+					if(x_scale > y_scale)
+					{
+						new_width = (int)(pb_width/x_scale);
+						new_height = (int)(pb_height/x_scale);
+					}
+					else 
+					{
+						new_width = (int)(pb_width/y_scale);
+						new_height = (int)(pb_height/y_scale);
+					}
 					pb = pb.scale_simple(new_width, new_height, Gdk.InterpType.HYPER); 
-
 					pb.copy_area(0,0,
 							new_width, new_height,
 							background_pb,
 							rectangle.x + (rectangle.width-new_width)/2,
 							rectangle.y + (rectangle.height-new_height)/2
 							);
-
 				}
 
 			} catch (Error e) {
