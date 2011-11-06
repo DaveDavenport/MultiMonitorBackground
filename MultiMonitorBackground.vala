@@ -111,7 +111,7 @@ static int main (string[] argv)
 
 		// Create background pixmap.
 		var background_pb = new Gdk.Pixbuf(Gdk.Colorspace.RGB,true,8, rw_width, rw_height);
-
+		background_pb.fill(0x00000000);
 
 		// Iterate over all the monitors and draw the image there.
 
