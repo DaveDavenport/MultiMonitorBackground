@@ -9,7 +9,7 @@ DESKTOP:=$(wildcard *.desktop)
 
 VALA_ARG:=$(foreach parm, $(PACKAGES), --pkg=$(parm)) 
 
-PROGRAM:=MultiDesktopBackground
+PROGRAM:=MultiMonitorBackground
 
 all: $(PROGRAM)
 
