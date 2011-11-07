@@ -23,26 +23,9 @@ using Gtk;
 /**
  * Set the actual background on the X server
  */
-static void set_background(Gdk.Window root_window, Gdk.Pixbuf background_pb)
+static void set_background(Gdk.Pixbuf background_pb)
 {
-		Gdk.Pixmap pixmap;
-		Gdk.Bitmap bitmap;
-		// Grab server, without this, it won't work.
-		Gdk.x11_grab_server();
-
-		// Set background pixmap.
-		Gdk.pixbuf_render_pixmap_and_mask(background_pb,out pixmap, out bitmap, 0);
-		root_window.set_back_pixmap(pixmap, false);
-
-		// Otherwise the background will only update after being exposed.
-		/// @todo can I trigger an expose event on GdkWindow?
-		root_window.draw_pixbuf(null,
-				background_pb, 0,0,0,0, 
-				background_pb.get_width(), background_pb.get_height(),
-				Gdk.RgbDither.NONE, 0,0);
-
-		// Release
-		Gdk.x11_ungrab_server();
+		Fix.set(background_pb);
 }
 
 
@@ -104,7 +87,6 @@ static int main (string[] argv)
 	for(int screen = 0; screen < num_screens ; screen++)
 	{
 		Gdk.Screen gscreen = display.get_screen(screen);
-		Gdk.Window root_window = gscreen.get_root_window();
 
 		int rw_width = gscreen.get_width();
 		int rw_height = gscreen.get_height();
@@ -151,8 +133,8 @@ static int main (string[] argv)
 						pb = pb.scale_simple(new_width, new_height, Gdk.InterpType.HYPER); 
 					}
 
-					int x_offset = (new_width - rectangle.width)/2;
-					int y_offset = (new_height- rectangle.height)/2;
+					int x_offset = (int)GLib.Math.ceil((new_width - rectangle.width)/2.0);
+					int y_offset = (int)GLib.Math.ceil((new_height- rectangle.height)/2.0);
 					pb.copy_area(
 							x_offset,y_offset,
 							new_width-x_offset*2,new_height-y_offset*2,
@@ -199,7 +181,7 @@ static int main (string[] argv)
 			}
 
 		}
-		set_background(root_window, background_pb);
+		set_background(background_pb);
 	}
 
 	return 1;
