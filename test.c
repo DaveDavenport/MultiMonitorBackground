@@ -11,19 +11,15 @@ void fix_set(GdkPixbuf *image)
 	Window root2;
 	int depth2;
 	Pixmap pmap_d1, pmap_d1_mask;
-	XGCValues gcvalues;
-	GC gc;
-	int in, out, w, h;
 	int format;
 	unsigned long length,after;
 	unsigned char *data_root, *data_esetroot;
-	int width = gdk_pixbuf_get_width(image);
-	int height = gdk_pixbuf_get_height(image);
 
 	/* create new display, copy pixmap to new display */
 	disp2 = XOpenDisplay(NULL);
 	if (!disp2)
 		printf("Can't reopen X display.");
+
 	root2 = RootWindow(disp2, DefaultScreen(disp2));
 	depth2 = DefaultDepth(disp2, DefaultScreen(disp2));
 
@@ -50,6 +46,9 @@ void fix_set(GdkPixbuf *image)
 				if (type == XA_PIXMAP && *((Pixmap *) data_root) == *((Pixmap *) data_esetroot)) {
 					XKillClient(disp2, *((Pixmap *)
 								data_root));
+					XSync(disp2, False);
+					XFree((void *)data_root);
+					printf("free-ing\n");
 				}
 			}
 		}
@@ -68,7 +67,8 @@ void fix_set(GdkPixbuf *image)
 	// Set it
 	XSetWindowBackgroundPixmap(disp2, root2, pmap_d1);
 	XClearWindow(disp2, root2);
-	XFlush(disp2);
+	XSync(disp2, True);
 	XSetCloseDownMode(disp2, RetainPermanent);
+	//
 	XCloseDisplay(disp2);
 }
