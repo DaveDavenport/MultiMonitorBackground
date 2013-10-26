@@ -22,7 +22,7 @@ $(DESKTOP_FILE): $(DESKTOP_SOURCE)
 
 $(PROGRAM): $(SOURCES) Makefile test.c
 	$(VALAC) -o $(PROGRAM) $(VALA_ARG) $(SOURCES) -C
-	gcc *.c -o $(PROGRAM) `pkg-config --libs --cflags $(PACKAGES) gdk-pixbuf-xlib-2.0 ` -I/usr/include/ -Wall -O2
+	gcc *.c -o $(PROGRAM) `pkg-config --libs --cflags $(PACKAGES) gdk-pixbuf-xlib-2.0 ` -I/usr/include/ -Wall -O2 -lX11 -lm
 
 install: $(PROGRAM) $(DESKTOP) $(DESKTOP_FILE)
 	cp $(PROGRAM) $(PREFIX)/bin/
