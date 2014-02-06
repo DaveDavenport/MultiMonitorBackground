@@ -1,5 +1,5 @@
 QUIET?=@
-CFLAGS?=-Wall -Wextra -O3 -g 
+CFLAGS?=-Wall -Wextra -O0 -g 
 VERSION?=0.14.2
 
 PROGRAM=mmb
@@ -33,6 +33,7 @@ CFLAGS+=-std=c99
 CFLAGS+=-Iinclude/
 CFLAGS+=-DVERSION="\"$(VERSION)\""
 
+LDADD=-lm
 # Check deps.
 ifeq (${DEBUG},1)
 CFLAGS+=-DTIMING=1 -g3
