@@ -117,11 +117,11 @@ void mmb_screen_free( MMB_Screen **screen )
 
 void mmb_screen_print( const MMB_Screen *screen )
 {
-    printf( "Total size:    %d %d\n", screen->base.w, screen->base.h );
+    printf( "Total size:    %.0f %.0f\n", screen->base.w, screen->base.h );
     printf( "Num. monitors: %d\n", screen->num_monitors );
 
     for ( int i =0; i < screen->num_monitors; i++ ) {
-        printf( "\t%2d: %d %d -> %d %d\n",
+        printf( "\t%2d: %.0f %.0f -> %.0f %.0f\n",
                 i,
                 screen->monitors[i].x,
                 screen->monitors[i].y,
