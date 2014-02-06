@@ -1,0 +1,53 @@
+MultiMonitorBackground(1)
+=========================
+:Author: Qball Cow qball@gmpclient.org
+:doctype: manpage
+:home: /main.html
+:toc:
+
+
+Name
+----
+MultiMonitorBackground - A small tool to set the Desktop background of X11.
+Only works with desktop environments that do not set the X11 rootwindow. 
+
+Synopsys
+--------
+mmb ['command']
+
+DESCRIPTION
+-----------
+
+This manual page explains the MultiMonitorBackground program. 
+
+COMMANDS
+--------
+
+ * *-input* <file> 
+Image to use as wallpaper.
+
+ * *-print*
+Print the monitor setup.
+
+ * *-output* <file.png>
+Create an image containing the background, instead of setting the background.
+
+ * *-clip*
+Clip images when bigger then the screen, instead of shrinking them.
+
+
+BUGS
+----
+
+Please report bugs on the GITHUB issues page: https://github.com/DaveDavenport/MultiMonitorBackground/
+
+LICENSE
+-------
+
+This program is licensed under MIT/X11.
+
+NOTES
+-----
+
+The program is available as-is. It is not a medical-grade program and should not be used for this 
+purpose.
