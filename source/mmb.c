@@ -64,7 +64,7 @@ typedef struct {
  *
  * @returns filled in MMB_Screen
  */
-MMB_Screen *mmb_screen_create( Display *display )
+static MMB_Screen *mmb_screen_create( Display *display )
 {
     // Create empty structure.
     MMB_Screen *retv = malloc( sizeof( *retv ) );
@@ -105,7 +105,7 @@ MMB_Screen *mmb_screen_create( Display *display )
  *
  * Free MMB_Screen object and set pointer to NULL.
  */
-void mmb_screen_free( MMB_Screen **screen )
+static void mmb_screen_free( MMB_Screen **screen )
 {
     if ( screen == NULL || *screen == NULL ) return;
 
@@ -115,7 +115,7 @@ void mmb_screen_free( MMB_Screen **screen )
     screen = NULL;
 }
 
-void mmb_screen_print( const MMB_Screen *screen )
+static void mmb_screen_print( const MMB_Screen *screen )
 {
     printf( "Total size:    %.0f %.0f\n", screen->base.w, screen->base.h );
     printf( "Num. monitors: %d\n", screen->num_monitors );
@@ -249,12 +249,12 @@ static int renderer_overlay_wallpaper( GdkPixbuf *background,
 }
 
 
-void renderer_store_image( GdkPixbuf *bg, const char *output )
+static void renderer_store_image( GdkPixbuf *bg, const char *output )
 {
     gdk_pixbuf_save( bg, output, "png", NULL, NULL );
 }
 
-void renderer_update_X11_background( Display *display, GdkPixbuf *image )
+static void renderer_update_X11_background( Display *display, GdkPixbuf *image )
 {
     Atom prop_root, prop_esetroot, type;
     Window root;
@@ -343,7 +343,7 @@ int X11_oops( Display *display, XErrorEvent *ee )
     return xerror( display, ee );
 }
 
-void help()
+static void help()
 {
     int code = execlp( "man","man", MANPAGE_PATH,NULL );
 
