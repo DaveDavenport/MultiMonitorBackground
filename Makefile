@@ -97,7 +97,7 @@ clean:
 	$(QUIET)rm -rf $(BUILD_DIR)
 
 
-$(BUILD_DIR)/$(MAN_PAGE): README.adoc
+$(BUILD_DIR)/$(MAN_PAGE): $(DOC_DIR)/README.adoc
 	$(info Converting: Create manpage)
 	$(QUIET)a2x --doctype manpage --format manpage $^ -D $(BUILD_DIR)/
 
