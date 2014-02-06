@@ -13,7 +13,7 @@ Only works with desktop environments that do not set the X11 rootwindow.
 
 Synopsys
 --------
-mmb ['command']
+MultiMonitorBackground ['command']
 
 DESCRIPTION
 -----------

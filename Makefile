@@ -2,7 +2,7 @@ QUIET?=@
 CFLAGS?=-Wall -Wextra -O0 -g 
 VERSION?=0.14.2
 
-PROGRAM=mmb
+PROGRAM=MultiMonitorBackground
 
 
 PREFIX?=$(DESTDIR)/usr
@@ -21,7 +21,7 @@ OBJECTS=$(SOURCES:%.c=$(BUILD_DIR)/%.o)
 HEADERS=$(wildcard include/*.h)
 OTHERS=Makefile LICENSE
 
-INSTALL_MANPAGE_PATH=$(MAN_DIR)/$(MAN_PAGE).gz
+INSTALL_MANPAGE_PATH=$(MAN_DIR)/$(MAN_PAGE)
 INSTALL_PROGRAM=$(BIN_DIR)/$(PROGRAM)
 
 
@@ -88,11 +88,7 @@ $(INSTALL_PROGRAM): $(BUILD_DIR)/$(PROGRAM)
 	$(QUIET)install -Dm 755 $^ $@ 
 
 
-$(BUILD_DIR)/$(MAN_PAGE).gz: $(DOC_DIR)/$(MAN_PAGE)
-	$(info Creating  man page)
-	$(QUIET) gzip -c $^ > $@
-
-$(INSTALL_MANPAGE_PATH): $(BUILD_DIR)/$(MAN_PAGE).gz
+$(INSTALL_MANPAGE_PATH): $(BUILD_DIR)/$(MAN_PAGE)
 	$(info Install   $^ -> $@)
 	$(QUIET) install -Dm 644 $^ $(INSTALL_MANPAGE_PATH) 
 
@@ -100,6 +96,10 @@ clean:
 	$(info Clean build dir)
 	$(QUIET)rm -rf $(BUILD_DIR)
 
+
+$(BUILD_DIR)/$(MAN_PAGE): README.adoc
+	$(info Converting: Create manpage)
+	$(QUIET)a2x --doctype manpage --format manpage $^ -D $(BUILD_DIR)/
 
 indent:
 	@astyle --style=linux -S -C -D -N -H -L -W3 -f $(SOURCES) $(HEADERS)
