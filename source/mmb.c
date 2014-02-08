@@ -204,7 +204,6 @@ static int renderer_overlay_wallpaper( GdkPixbuf *background,
         MMB_Rectangle rectangle = screen->monitors[monitor];
         double w_scale = wp_width/( double )( rectangle.w );
         double h_scale = wp_height/( double )( rectangle.h );
-        printf( "%f %f\n", w_scale, h_scale );
 
         // Picture is small then screen, center it.
         if ( w_scale < 1 && h_scale < 1 ) {
