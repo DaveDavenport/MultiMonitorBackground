@@ -1,5 +1,5 @@
 /**
- * simpleswitcher
+ * MultiMonitorBackground
  *
  * MIT/X11 License
  * Copyright (c) 2014 Qball  Cow <qball@gmpclient.org>
