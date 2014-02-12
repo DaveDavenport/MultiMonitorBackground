@@ -260,8 +260,8 @@ static int renderer_overlay_wallpaper( GdkPixbuf *background,
             gdk_pixbuf_copy_area(
                 scaled_wp,
                 ( int )ceil( x_off ),( int )ceil( y_off ),
-                new_w-x_off*2,
-                new_h-y_off*2,
+                new_w-ceil(x_off)*2,
+                new_h-ceil(y_off)*2,
                 background,
                 rectangle.x + ( ( double )rectangle.w-new_w+x_off*2 )/2,
                 rectangle.y + ( ( double )rectangle.h-new_h+y_off*2 )/2 );
